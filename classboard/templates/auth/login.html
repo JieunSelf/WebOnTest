@@ -50,26 +50,3 @@
 {% endblock %}
 
 
-<!-- <div class="container my-3">
-    <h2 class="bg-font">회원 전용 게시판입니다.</h2>
-
-
-    <form method="post" class = "post-form">
-        {{form.csrf_token}}
-        <div class="form-group" style="margin:20px;">
-            {{ form.userid.label("아이디") }} : 
-            {{ form.userid(class="form-control", placeholder="아이디")}}
-        </div>
-        <div class="form-group" style="margin:20px;">
-            {{ form.password.label("비밀번호") }} : 
-            {{ form.password(class="form-control form-input", placeholder="비밀번호")}}
-        </div>
-        <div>
-            <button type="submit" class="btn btn-outline-info btn-color" style = "float:right;">로그인</button>
-        </div>
-        
-    </form>
-    <div style = "float:right">
-    <a href="{{ url_for('auth.signup') }}" class="btn btn-color"> 회원가입 </a> </div>
-    </div> -->
-

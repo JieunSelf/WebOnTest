@@ -33,12 +33,6 @@ def signup():
         user_type=form.usertype.data, create_date=datetime.now())
         db.session.add(member)
 
-        #upload/select에 명단 추가
-        # tests = TestSet.query.all()
-        # for test in tests :
-        #     test_member = Test_Member(test_id=test.id, member_id=member.id, select='1')
-        #     db.session.add(test_member)
-
         db.session.commit()
         return redirect(url_for('main.hello'))
     return render_template('auth/signup.html', form = form)
@@ -73,26 +67,6 @@ def login():
 
             return redirect(url_for('notice._list'))
     return render_template('auth/login.html', form=form)
-
-'''
-    if form.validate_on_submit():
-        session['userid']=form.data.get('userid')
-        return redirect(url_for('notice._list'))
-    return render_template('auth/login.html', form=form)
-    if request.method=='POST' and form.validate_on_submit():
-        error = None
-        user = Members.query.filter_by(user_id=form.userid.data).first()
-        if not user:
-            error="존재하지 않는 사용자입니다."
-        elif not check_password_hash(user.user_pw, form.password.data):
-            error = "비밀번호가 올바르지 않습니다."
-        if error is None:
-            session.clear()
-            session['user_id']=user.user_id
-            return redirect(url_for('notice._list'))
-        flash(error)
-    return render_template('auth/login.html', form = form)
-'''
 
 #로그아웃
 @bp.route('/logout/')
@@ -139,15 +113,3 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = Members.query.get(userid)
-        
-
-        '''
-        g는 플라스크가 제공하는 컨텍스트 변수이다.
-        이 변수는 request 변수와 마찬가지로 [요청 -> 응답] 과정에서 유효하다. 
-        코드에서 보듯 session 변수에 user_id 값이 있으면 데이터베이스에서 이를 조회하여 g.user에 저장한다. 
-        
-        이렇게 하면 이후 사용자 로그인 검사를 할 때 session을 조사할 필요가 없다. 
-        g.user에 값이 있는지만 알아내면 된다. 
-        g.user에는 User 객체가 저장되어 있으므로 여러 가지 사용자 정보(username, email 등)를 추가로 얻어내는 이점이 있다. 
-        
-        '''

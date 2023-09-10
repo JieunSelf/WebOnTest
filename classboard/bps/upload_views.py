@@ -136,7 +136,6 @@ def modify_1(test_id):
         flash('수정 권한이 없습니다.')
         return redirect(url_for('auth.login'))
 
-    # 응시자 있는 경우 수정 못하게
     if testset.exam_count > 0 :
         flash('응시자가 있는 경우 수정할 수 없습니다.')
         return redirect(url_for('upload._list', userid = user_id))
@@ -217,9 +216,6 @@ def modify_2(test_id):
                 db.session.add(new_test)
                 db.session.commit()
                 number+=1
-
-        # 기존 문항 중에 삭제된 문항 -> db에서도 삭제하기
-        # 문항 개수 
         count = len(img)
 
         for n in range(1, count+1):
@@ -232,100 +228,13 @@ def modify_2(test_id):
                 db.session.delete(old_test)
                 db.session.commit()
         
-
-
-        # for test, num in zip(Tests, range(1,len(img)+1)):
-        #     if test.test_id in map(int, modify_tests.keys()):
-        #         pass
-        #     else : 
-        #         delete_test = Test2.query.filter(Test2.id==test.test_id).first()
-        #         if delete_test:
-        #             db.session.delete(delete_test)
-        #             db.session.commit()
-        #     old_test = Test2.query.filter(and_(Test2.number==num,Test2.id!=test.id)).first()
-        #     if old_test:
-        #         db.session.delete(old_test)
-        #         db.session.commit()
-            # old_test2 = Test2.query.filter(and_(Test2.number>len(img), Test2.id!=test.id)).first()
-            # if old_test2:
-            #     db.session.delete(old_test2)
-            #     db.session.commit()
-        
         return redirect(url_for('upload._list', userid = user_id))
 
-        # 기존 문항 모두 삭제
-        # test_check = Test2.query.filter(Test2.test_id == test_id).all()
-        # for test in test_check:
-        #     db.session.delete(test)
 
-        # session.query(Test2).filter(Test2.test_id.in_(Test2.test_id==test_id)).delete(synchronize_session=False)
-
-        # for t_id, t_content in modify_tests.items():
-        #     if t_content == '':
-        #         pass
-        #     else :
-        #         if img[number-1] :
-        #             if allowed_file(img[number-1].filename):
-        #                 filename = secure_filename(img[number-1].filename)
-        #                 test2 = Test2(test_id=test_id, number = number, content = t_content, img_file = img[number-1].read(), img_name = filename, mimetype = img[number-1].mimetype)
-                        
-        #             else :
-        #                 flash('이미지 파일만 가능합니다.')
-        #                 return redirect(request.url)
-        #         else :
-        #             test2 = Test2(test_id = test_id, number=number, content = t_content)
-                    
-        #         db.session.add(test2)
-        #         db.session.commit()
-        #         number +=1
         
     return render_template('upload/test_step2_modify.html', Tests=Tests, test_id_count = json.dumps(test_id_count))
 
-'''
-# 수정 전
-@bp.route('/modify/step2/<test_id>', methods = ['GET', 'POST'])
-def modify_2(test_id):
-    user_id = session.get("user_id")
-    if user_id == None:
-        return redirect(url_for('auth.login'))
-    Tests = Test2.query.filter(Test2.test_id ==test_id).all()
-    test_id_count = Test2.query.count()
 
-    if request.method == 'POST':
-        modify_tests = request.form.to_dict()
-        print(modify_tests)
-        img = request.files.getlist("image")
-        number = 1
-
-        # 기존 문항 모두 삭제
-        test_check = Test2.query.filter(Test2.test_id == test_id).all()
-        for test in test_check:
-            db.session.delete(test)
-
-        # session.query(Test2).filter(Test2.test_id.in_(Test2.test_id==test_id)).delete(synchronize_session=False)
-
-        for t_id, t_content in modify_tests.items():
-            if t_content == '':
-                pass
-            else :
-                if img[number-1] :
-                    if allowed_file(img[number-1].filename):
-                        filename = secure_filename(img[number-1].filename)
-                        test2 = Test2(test_id=test_id, number = number, content = t_content, img_file = img[number-1].read(), img_name = filename, mimetype = img[number-1].mimetype)
-                        
-                    else :
-                        flash('이미지 파일만 가능합니다.')
-                        return redirect(request.url)
-                else :
-                    test2 = Test2(test_id = test_id, number=number, content = t_content)
-                    
-                db.session.add(test2)
-                db.session.commit()
-                number +=1
-        return redirect(url_for('upload._list', userid = user_id))
-        
-    return render_template('upload/modify_test.html', Tests=Tests, test_id_count = json.dumps(test_id_count))
-'''
 
 @bp.route('/open/<testset_id>')
 def open(testset_id):
@@ -344,65 +253,7 @@ def close(testset_id):
     return redirect(url_for('upload._list', userid = userid))
 
 
-
-
-
-
-#=============아래는 테스트 버전=================
-
-# 시험 응시자 선택 (테스트 중..)
-# @bp.route('/select/<testset_id>')
-# def select(testset_id):
-#     user_id = session.get("user_id")
-#     if user_id == None:
-#         return redirect(url_for('auth.login'))
-#     # member_list = Members.query.order_by(Members.create_date.desc())
-#     test_member = Test_Member.query.filter(Test_Member.test_id==testset_id).filter(Test_Member.member_id!=1).all()
-#     print(test_member)
-#     return render_template('upload/select.html',  test_member=test_member)
-
-# @bp.route('/select_0/<test_member_id>')
-# def select_0(test_member_id):
-#     test_member = Test_Member.query.get(test_member_id)
-#     test_member.select = 0
-#     db.session.commit()
-#     return redirect(url_for('upload.select', testset_id=test_member.test_id))
-    
-# @bp.route('/selecet_1/<test_member_id>')
-# def select_1(test_member_id):
-#     test_member = Test_Member.query.get(test_member_id)
-#     test_member.select = 1
-#     db.session.commit()
-#     return redirect(url_for('upload.select', testset_id=test_member.test_id))
-
-
-
-# ajax로 문항 저장했던 버전
-
-# @bp.route('/test_step2/<test_id>', methods=['GET', 'POST'])
-# def test_step2(test_id):
-#     user_id = session.get("user_id")
-#     if user_id == None:
-#         return redirect(url_for('auth.login'))
-#     if request.method == 'POST':
-#         create_tests = request.form.to_dict()
-#         print(create_tests)
-#         number = 1
-
-#         test_check = Test2.query.filter(Test2.test_id == test_id).all()
-#         for test in test_check:
-#             db.session.delete(test)
-        
-#         for t_id, t_content in create_tests.items():
-#             test2 = Test2(test_id = test_id, number=number, content = t_content)
-#             db.session.add(test2)
-#             db.session.commit()
-#             number += 1
-        
-#         return redirect(url_for('upload._list', userid = user_id))
-        
-#     #return redirect(url_for('upload.ajax_send_data'))
-#     return render_template('upload/test_step2.html')
+# test
 
 @bp.route('/ajax_test/<test_id>', methods=['GET', 'POST'])
 def ajax_test(test_id):
@@ -410,14 +261,11 @@ def ajax_test(test_id):
     user_id = session.get("user_id")
     if user_id == None:
         return redirect(url_for('auth.login')) 
-
-    # POST 처리는 /success에서 하기 때문에 아래의 코드는 필요 없음...?   
+  
     if request.method == 'POST' and form.validate_on_submit():
         test = request.get_json()
         return print(test)
-        # return redirect(url_for('upload.success', test=test))
-        # return redirect(url_for('upload._list', userid = user_id))
-    print('ajax get 응답')
+
     return render_template('upload/ajax_test.html', test_id = test_id, user_id = user_id)
 
 
@@ -436,15 +284,13 @@ def success(test_id):
             print(i['id'], i['text'])
             # 한번 더 중복되는 문항 있는지 확인하고 삭제? -> 중복?? 일단 남겨둠.
             test_check = Test2.query.filter(and_(Test2.test_id==test_id, Test2.number==int(i['id']))).first() 
-            print(test_check)
-            # if test_check and int(i['id']) == test_check.number and i['text'] == test_check.content:
+
             if test_check:
                 db.session.delete(test_check)
             db.session.add(test2)
             db.session.commit()
-        # 아래의 템플릿 접근하지 않고 끝남
         return render_template('upload/success.html', test = testdata)
-    print('get으로 success 접근함')
+
     return render_template('upload/success.html')
 
 
@@ -470,7 +316,6 @@ def upload_file():
             image_test = ImageTest(name = fname, data = f.read(), mimetype = mtype)
             db.session.add(image_test)
             db.session.commit()
-            #f.save("./classboard/image_folder/" + secure_filename(f.filename))
             return 'file uploaded successfully'
         else :
             return '이미지만 올릴 수 있어요'

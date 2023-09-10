@@ -15,14 +15,6 @@ class Members(db.Model):
     permit = db.Column(db.Integer, default = 1) #default=0인 경우 자동 승인
     connect_date = db.Column(db.DateTime()) # 마지막 접속시간
     is_activate = db.Column(db.Integer)  # 탈퇴여부
-    # notice = db.relationship('Notice', backref='member')
-    # def __init__(self, user_id, user_pw, user_name, user_type, create_date):
-    #     self.user_id = user_id
-    #     self.user_pw = user_pw
-    #     self.user_name = user_name
-    #     self.user_type = user_type
-    #     self.create_date=create_date
-    #ip 정보
 
 class Notice(db.Model):
     __tablename__ = 'Notice'
@@ -145,7 +137,7 @@ class ScoreSet(db.Model):
 
     score_open = db.Column(db.Integer, default = 0)
 
-# 이미지를 저장하지 않은 학생 답안에 보여줄 이미지->제출된 이미지 파일이 없습니다.
+
 class ImageTest(db.Model):
     __tablename__ = 'ImageTest'
     id = db.Column(db.Integer, primary_key=True)

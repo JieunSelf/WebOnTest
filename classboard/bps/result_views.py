@@ -65,24 +65,9 @@ def certificate(course, grade):
     new_img.save(load)
 
     return send_file(load, attachment_filename='certificate.png', mimetype='image/png')
-    # return render_template('/result/show.html')
-
-    # buffer = BytesIO()
-    # new_img.save(buffer, format="png")
-    # image.save(buffer, format='png')
-    # buffer.seek(0)
-    # print(type(buffer))
-
-    # # files = {
-    #     'image' : ('certificate.png', buffer, 'image/png')
-    # }
-
-    # return Response(nd_image)
-    # return send_file(files, attachment_filename='certificate.png', mimetype='image/png')
-    # return redirect(url_for('result.print'))
     
     
-@bp.route('/paper/<course>/<grade>')    #<------------여기를 작성중에 있음.구덕회.2021-0824
+@bp.route('/paper/<course>/<grade>')    
 def paper(course, grade):
     cert_img = os.path.dirname(os.path.dirname(__file__)) +"\static\certificate2.png"
     image = Image.open(cert_img)

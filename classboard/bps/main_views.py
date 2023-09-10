@@ -15,10 +15,3 @@ def hello():
         return redirect(url_for('notice._list'))
 
 
-    # form = LoginForm()
-    # if request.method=='POST' and form.validate_on_submit():
-    #     return redirect(url_for('auth.login'))
-
-
-    # return render_template('main.html')
-

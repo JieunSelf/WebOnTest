@@ -53,18 +53,6 @@ def _list(test_id):
             score_list.append(None)
         member_list.append(sortMember)
 
-
-    # member_list = {}
-    # for Answer in sortAnswer:
-    #     sortMember = Members.query.filter(Members.user_id == Answer.member_id).first()
-    #     # print(sortMember)
-    #     score_sum = ScoreSet.query.filter(and_(ScoreSet.testset_id==test_id, ScoreSet.member_id == sortMember.id)).first()
-    #     if score_sum :
-    #         member_list[sortMember.user_name] = score_sum.score_sum
-    #     else :
-    #         member_list[sortMember.user_name] = None
-    #     #member_list.append(sortMember)
-
     score_sum = ScoreSet.query.filter(ScoreSet.testset_id == test_id).all()
     
     return render_template('/score/list.html', member_list = member_list, score_list = score_list, test_id = test_id, test=test)
@@ -87,8 +75,6 @@ def score_open_all(testset_id):
     for score in scores :
         score.score_open = 1
 
-    # testset = TestSet.query.filter(TestSet.id==test_id).first()
-    # testset.score_open = 1
     db.session.commit()
     return redirect(url_for('score._list', test_id =testset_id))
 
