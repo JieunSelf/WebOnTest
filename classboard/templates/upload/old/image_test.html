@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container">
+  <h5 class="my-3 pb-2" style="font-family: 'nanumSquareB';">시험문항 만들기</h5>
+
+  <!-- 문항 textarea로.. image 추가하게..  -->
+  <form action = "/upload/uploader" class="testForm" enctype= "multipart/form-data" method="POST">
+    <div class="form-group">
+        <input type=file name=file class = "btn btn-color" style = "font-size: 14px;" value="이미지 업로드">
+        <input type="submit">
+    </div>
+  </form>
+</div>
+
+<!-- 자바스크립트 -->
+
+{% endblock %}
+

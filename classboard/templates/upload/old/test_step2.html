@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container">
+  <h5 class="my-3 pb-2">시험 문항 만들기</h5>
+
+  <form method = "POST" class="testForm">
+    <button type = "button" class="testAppend btn btn-color">문항 추가하기</button>
+
+    <input type="submit" class = "btn btn-color" value="저장하기">
+ 
+    <div class="form-group testDiv">
+      <ol class="testOl">  
+        <li>
+        <input class = 'testInput form-css' type='text' style="width: 700px;" placeholder="시험 문제">
+        
+        <button type="button" class="delBtn btn btn-color del-css" onclick=deleteTest(this)>삭제</button>
+        </li>
+      </ol>
+    </div>
+
+  </form>
+</div>
+
+
+<script>
+  //let test_id_count = {{ test_id_count|safe }}+1;
+</script>
+
+<script>
+    const testAppend = document.querySelector('.testAppend');
+    const testForm = document.querySelector('.testForm');
+    const testOl = document.querySelector('.testOl')
+
+    function deleteTest(obj) {
+      if(obj.parentNode.parentNode)
+        obj.parentNode.parentNode.removeChild(obj.parentNode);
+    }
+
+    function newTest(event){
+        const li = document.createElement("li");
+        const input = document.createElement("input");
+        
+        //input.name = test_id_count;
+        //input.id = test_id_count;
+        input.className = "testInput form-css";
+        input.type="text";
+        input.style="width: 700px";
+
+        const delBtn = document.createElement("button");
+        delBtn.innerText='삭제';
+        delBtn.type="button";
+        delBtn.onclick = function(){
+          deleteTest(this);return false;
+        };
+
+        delBtn.className = "delBtn btn btn-color del-css";
+
+        li.appendChild(input);
+        li.appendChild(delBtn);
+        
+        testOl.appendChild(li);
+        //test_id_count +=1;
+
+    }
+
+    const testInput = document.querySelectorAll('.testInput')
+
+    for(const i in testInput) {
+    i.addEventListener('keydown', function(event){
+      if(event.keyCode ==13){
+      event.preventDefault();
+      newTest();
+        };
+      }); 
+    };
+
+
+    function init() {
+      testAppend.addEventListener('click', newTest);
+      //const select = document.querySelector('')
+      //const select = document.querySelector('delBtn');
+      //select.addEventListener('click', deleteTest);
+    }
+
+    init();
+
+</script>
+
+{% endblock %}

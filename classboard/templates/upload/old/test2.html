@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h5 class="my-3 border-bottom pb-2">시험지 만들기</h5>
+
+
+    <form method="POST" class="post-form my-3">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" name="title" id="title" value="{{ form.title.data or ''}}">
+            <!--value 값으로 form.subject.data or ''를 입력하면 이미 전송한 데이터가 다시 설정된다. 
+              or ''은 '현재 템플릿이 Get 방식으로 요청되는 경우 기존 입력값이 없으므로 (None으로 출력) 이를 방지하기 위해서 사용했다. 
+              즉 이렇게 하면 form.subject.data에 값이 없을 때 None이 아니라 ''이 출력된다. '-->
+        </div>
+
+        <div class="form-group">
+            <label for = "content">내용</label>
+            <textarea class="form-control" name="content" id="content" rows="10">{{ form.content.data or '' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">저장하기</button>
+
+    </form>
+
+
+
+
+
+
+
+  <!-- <form class='create-testForm'>
+    <input type="text" placeholder="문제를 적으세요" />
+  </form>
+
+  <ul class='testList'>
+
+  </ul>
+
+  <script src='/static/upload.js'></script> -->
+
+  
+
+
+
+
+    <!-- <table>
+        <tr><td width="10"><td><h3>만들기</h3>
+        <tr><td width="10"><td><h5>>>> <a class= 'btn' href="{{url_for('static',filename='csv/delpai.csv')}}" download><font color=blue>1. 여기를 클릭해서 양식파일(delpai.csv)을 다운로드하세요.</font></a> 이 양식파일을 작성하신후, 업로드해야 합니다. <input type="button" value="도움말" onclick="popup()"/>
+        <tr><td width="10"><td><h5>>>> <a class= 'btn' onclick="confirm_this('/sv_reset/{{session['myusername']}}')"><font color=red>2. 리셋하기 (매우 주의!!!) 여기를 클릭하면 서버에 업로드되어 있는 데이터가 모두 지워집니다.</font></a> 새로운 데이터를 업로드해야 할 때, 사용합니다.</h5>
+    </table>
+    <br>
+    
+    <table><tr><td>&nbsp;&nbsp;&nbsp;<td width="100%"> 
+        <form action="/sv_upload_result" name="create" method='POST' enctype="multipart/form-data">
+          <div class="row" style="background-color:white;">
+            <div class="col-xs-11">
+            작성한 양식 파일을 업로드 합니다. 파일을 선택해 주세요.
+                <input type="file"  class="form-control" name="myfile" placeholder="업로드 파일을 선택해 주세요">
+                <input type="hidden" name="userid" value="{{userid}}">
+                <br>
+                <input type="button" value="확인" onclick="check_onclick()"/>
+            </div>
+          </div>
+        </form>
+        </tr>
+    </table>
+    <br> -->
+
+</div>
+
+{% endblock %}

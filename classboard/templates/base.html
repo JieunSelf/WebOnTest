@@ -1,0 +1,87 @@
+<!--- 기본 base     ---->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!--Bootstrap CSS-->
+    <!--url_for 함수는 정적 파일의 URL도 찾아준다. -->
+    <link rel ="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+    <link rel ="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+
+
+    
+    <!-- www.google.com/fonts 폰트 사용 -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Fugaz+One&family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR&family=Sunflower:wght@300;500;700&display=swap" rel="stylesheet">
+
+	<script
+    src="https://kit.fontawesome.com/9eb162ac0d.js"
+    crossorigin="anonymous"
+  ></script>
+
+    <title> SwTot.com </title>
+
+	<style>
+	/* Remove the navbar's default margin-bottom and rounded borders */ 
+	.navbar {
+	  margin-bottom: 0;
+	  border-radius: 0;
+	}
+
+	/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+	.row.content {height: 450px; }
+
+	/* Set black background color, white text and some padding */
+	footer {
+	  background-color: #333;
+	  color: white;
+	  width: 100%;
+	  padding: 12px;
+	  padding-right: 0px;
+	  padding-left: 0px;
+	  margin-right: 0px;
+	  margin-left: 0px;
+
+	}
+
+	@media screen and (max-width: 767px) {
+	  .row.content {height:auto;} 
+	  .container-fluid{width:100%;}
+	}
+
+	/* 다음의 코드를 CSS에 추가하면 img 요소의 class 값에 img-responsive를 추가하지 않아도, 모든 이미지가 반응형이 된다. */
+	img { max-width: 100%; height: auto; }
+	</style>
+
+</head>
+
+
+<body>
+    {% include "navbar.html" %}
+    {% block content %}
+    {% endblock %}
+
+	<script src="{{url_for('static', filename='jquery-3.6.0.min.js')}}"></script>
+    <script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+
+    <!--자바스크립트 Start -->
+    {% block script %}
+    {% endblock %}
+    <!-- 자바스크립트 End  -->
+
+	
+</body>
+
+
+</html>

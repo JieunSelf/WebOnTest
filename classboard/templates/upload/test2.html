@@ -1,0 +1,103 @@
+<!--- 시험업로드 > 시험만들기 > 문항만들기 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>alert("{{messages[-1]}}")</script>
+{% endif %}
+{% endwith %}
+
+<div class="container">
+  <h5 class="my-3 pb-2">시험문항 만들기</h5>
+  <form method = "POST" class="testForm" enctype= "multipart/form-data">
+    <div class="square">
+        ※ '문항 추가하기' 버튼을 눌러 문항을 작성하세요. >>>
+        <button type = "button" class="testAppend btn btn-color">문항 추가하기</button>
+        <br>
+        ※ 파일 업로드는 이미지 파일만 가능합니다.
+    </div>
+
+    <div class="form-group testDiv">
+      <ol class="testOl">  
+        <li>
+            <div class="testInputDiv">
+                <textarea name="testdata" class="testInput form-css" ></textarea>
+                <input class = "btn btn-color" name='image' type='file'>
+                <button type="button" class="delBtn btn btn-color del-css" onClick=deleteTest(this)><i class="fas fa-trash-alt"></i></button>
+            </div>
+        </li>
+      </ol>
+
+    </div>
+
+    <input type="submit" class = "btn btn-color btn-right " value="시험지 저장하기">
+
+  </form>
+</div>
+
+<script>
+    const testAppend = document.querySelector('.testAppend');
+    const testForm = document.querySelector('.testForm');
+    const testDiv = document.querySelector('.testDiv');
+    const testOl = document.querySelector('.testOl')
+
+    function deleteTest(obj) {
+        if(obj.parentNode.parentNode.parentNode)
+          obj.parentNode.parentNode.parentNode.removeChild(obj.parentNode.parentNode);
+      }
+
+    function newTest(event){
+        const li = document.createElement("li");
+        const testInputDiv = document.createElement("div")
+
+        testInputDiv.className = "testInputDiv"
+
+        const input = document.createElement("textarea");
+
+        input.name = "testdata"
+        input.className = "testInput form-css";
+
+        const imageInput = document.createElement("input")
+        imageInput.className = "btn btn-color"
+        imageInput.name = 'image'
+        imageInput.type = 'file'
+
+        const delBtn = document.createElement("button");
+        delBtn.innerHTML='<i class="fas fa-trash-alt"></i>';
+        delBtn.type="button";
+        delBtn.onclick = function(){
+          deleteTest(this);return false;
+        };
+
+        delBtn.className = "delBtn btn btn-color del-css";
+
+        testInputDiv.append(input);
+        testInputDiv.append(imageInput);
+        testInputDiv.append(delBtn);
+
+        li.appendChild(testInputDiv);
+        
+        testOl.appendChild(li);
+        input.focus();
+
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      newTest();
+    }
+
+
+    function init() {
+      testAppend.addEventListener('click', newTest);
+      //const select = document.querySelector('')
+      //const select = document.querySelector('delBtn');
+      //select.addEventListener('click', deleteTest);
+    };
+
+    init();
+
+</script>
+
+{% endblock %}

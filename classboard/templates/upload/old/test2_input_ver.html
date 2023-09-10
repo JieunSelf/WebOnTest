@@ -1,0 +1,95 @@
+<!--- 시험업로드 > 시험만들기 > 문항만들기 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>alert("{{messages[-1]}}")</script>
+{% endif %}
+{% endwith %}
+
+<div class="container">
+  <h5 class="my-3 pb-2">시험문항 만들기</h5>
+
+  <form method = "POST" class="testForm" enctype= "multipart/form-data">
+    <p><input class = "btn btn-color" name='file' type='file'>
+    </p>
+
+    <button type = "button" class="testAppend btn btn-color">문항 추가하기</button>
+
+    <input type="submit" class = "btn btn-color " value="시험지 저장하기">
+
+    <div class="form-group testDiv">
+      <ol class="testOl">  
+        <li>
+        <input name='testdata' class = 'testInput form-css' type='text'  style="width: 700px;">
+        <button type="button" class="delBtn btn btn-color del-css" onclick=deleteTest(this)>삭제</button>
+        </li>
+      </ol>
+
+    </div>
+
+  </form>
+</div>
+
+<script>
+    const testAppend = document.querySelector('.testAppend');
+    const testForm = document.querySelector('.testForm');
+    const testDiv = document.querySelector('.testDiv');
+    const testOl = document.querySelector('.testOl')
+
+    function deleteTest(obj) {
+      if(obj.parentNode.parentNode)
+        obj.parentNode.parentNode.removeChild(obj.parentNode);
+    }
+
+    function newTest(event){
+        const li = document.createElement("li");
+        const input = document.createElement("input");
+
+        input.name = "testdata"
+        input.className = "testInput form-css";
+        input.type="text";
+        input.style="width: 700px";
+
+        const delBtn = document.createElement("button");
+        delBtn.innerText='삭제';
+        delBtn.type="button";
+        delBtn.onclick = function(){
+          deleteTest(this);return false;
+        };
+
+        delBtn.className = "delBtn btn btn-color del-css";
+
+        li.appendChild(input);
+        li.appendChild(delBtn);
+        
+        testOl.appendChild(li);
+        input.focus();
+
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      newTest();
+    }
+
+
+    function init() {
+      testAppend.addEventListener('click', newTest);
+      testForm.addEventListener('keypress', function (e) {
+        if(e.key === 'Enter') {
+          e.preventDefault();
+          newTest();
+        }
+      });
+      //const select = document.querySelector('')
+      //const select = document.querySelector('delBtn');
+      //select.addEventListener('click', deleteTest);
+    };
+
+    init();
+
+</script>
+
+{% endblock %}

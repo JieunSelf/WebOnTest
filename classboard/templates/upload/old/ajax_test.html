@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container">
+  <h5 class="my-3 pb-2" style="font-family: 'nanumSquareB';">시험문항 만들기</h5>
+
+  <!-- 문항 textarea로.. image 추가하게..  -->
+  <form class="testForm">
+    <div class="form-group">
+        <input name = 'test' id = 'test' class = 'testInput' type='text' placeholder="시험 문제 적고 엔터" style="width: 700px;">
+        <input type="submit" class = "btn btn-color" style = "font-size: 14px;" value="만들기">
+    </div>
+  </form>
+
+  <ol class="result"></ol>
+  <div>
+    <button class="ajaxsend btn btn-color">시험지 저장</button>
+    <button class="btn btn-color" onclick="location.href='/upload/list/{{user_id}}'">시험지 목록</button>
+  </div>
+</div>
+
+<!-- 자바스크립트 -->
+<script>
+const testForm = document.querySelector('.testForm');
+const testInput = testForm.querySelector('.testInput');
+const result = document.querySelector('.result');
+
+const TESTS_LS = 'testss';
+let testss = [];
+
+
+function paintTest(text){
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.innerText = text;
+
+    const delBtn = document.createElement("button");
+    delBtn.innerText = '삭제';
+    delBtn.className = 'btn ajx-del';
+    delBtn.addEventListener('click', deleteTest);
+
+    const newId = testss.length + 1;
+    
+    //수정 버튼
+    //const modBtn = document.createElement("button");
+    //modBtn.innerText = '수정';
+    //modBtn.id = newId;
+    //modBtn.addEventListener('click', modifyTest);
+
+    li.appendChild(span);
+    li.appendChild(delBtn);
+    li.id = newId;
+
+    result.appendChild(li);
+    const testObj = {
+        text: text, 
+        id : newId
+    };
+
+    testss.push(testObj);
+
+    saveTests();
+}
+
+function saveTests() {
+    localStorage.setItem(TESTS_LS, JSON.stringify(testss));
+}
+
+function deleteTest(event) {
+    const btn = event.target;
+    const li = btn.parentNode;
+    result.removeChild(li);
+    const cleanTests = testss.filter(function(test) {
+        return test.id !== parseInt(li.id);
+    });
+    testss = cleanTests;
+    saveTests();
+}
+
+//수정하기 관련
+//function modifyTest(event) {
+//    const btn = event.target;
+//    const li = btn.parentNode;
+//    const span = li.querySelector(span);
+
+//}
+
+function handleSubmit(event) {
+    event.preventDefault();
+    const currentValue = testInput.value;
+    paintTest(currentValue);
+    testInput.value = "";
+}
+
+function loadTests() {
+    const loadedTests = localStorage.getItem(TESTS_LS);
+    if (loadedTests !== null) {
+        const parsedTests = JSON.parse(loadedTests);
+        parsedTests.forEach(function(test) {
+            paintTest(test.txt);
+        })
+    }
+}
+
+function init() {
+    localStorage.clear();
+    //const defaultTests = localStorage.getItem(TESTS_LS);
+    //localStorage.removeItem(defaultTests);
+    loadTests();
+    testForm.addEventListener('submit', handleSubmit);
+}
+
+init();
+</script>
+
+<script>
+    document.querySelector('.ajaxsend').addEventListener('click', function(){
+        const testdata = localStorage.getItem(TESTS_LS);
+        if (testdata !== null) {
+            console.log(testdata)
+            sendAjax('http://127.0.0.1:5000/upload/success/'+{{test_id}}, testdata);
+            };
+
+        alert("저장되었습니다");
+        //localStorage.clear();
+        //location.href = 'http://127.0.0.1:5000/upload/list/'+{{user_id}};
+        });
+
+    function sendAjax(url, testdata) {      
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url);
+        //xhr.setRequestHeader('X-CSRFToken', cookies['csrftoken']); 
+        //xhr.setRequestHeader('X-CSRFToken', csrf_token);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(testdata);
+    };
+
+</script>
+
+{% endblock %}
+
+
+<!-- document.querySelector('.ajaxsend').addEventListener('click', function(){
+    const testdata = localStorage.getItem(TESTS_LS);
+    if (testdata !== null) {
+        const parsedTests = JSON.parse(testdata);
+        parsedTests.forEach(function(test) {
+            //console.log(test); //javascript 객체로 찍힌다. 성공. 이제 이걸 보내야해.
+            sendAjax('http://127.0.0.1:5000/upload/ajax_send_data', test);
+        })
+    }
+})
+
+function sendAjax(url, data) {
+    data = JSON.stringify(data);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(data);
+
+    xhr.addEventListener('load', function() {
+        var result = JSON.parse(xhr.responseText);
+        console.log(result);
+    })
+} -->

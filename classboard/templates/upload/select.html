@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <p></p>
+    <p style="color: rgb(29, 31, 146); font-family: 'nanumSquareB';"
+    >※ 시험에 응시할 학생을 선택하세요.</p>
+
+
+    <table class="table-type09" style="width:95%">
+
+            <colgroup>
+               <col span="1" style="width: 5%;">
+               <col span="1" style="width: 25%;">
+               <col span="1" style="width: 25%;">
+               <col span="1" style="width: 20%;">
+               <col span="1" style="width: 25%;">
+            </colgroup>
+
+
+        <thead>
+            <tr>
+                <th class= "text-center">번호</th>
+                <th class= "text-center">ID</th>
+                <th class= "text-center">이름</th>
+                <th class= "text-center">Type</th>
+                <th class= "text-center">시험 공개/비공개</th>
+            </tr>
+        </thead>
+            {% for member in test_member %}
+                <tbody>
+                    <td> {{ member.member.id }} </td>
+                    <td> {{ member.member.user_id }} </td>
+                    <td>  {{ member.member.user_name }} </td>
+                    {% if member.member.user_type == '1'  %}
+                    <td> 교사 </td>
+                    {% elif member.member.user_type == '2'  %}
+                    <td> 학생 </td>
+                    {% elif member.member.user_type == '3'  %}
+                    <td> 학부모 </td>
+                    {% endif %}
+
+                    {% if member.select == 1%}
+                    <td> <a href="{{ url_for('upload.select_0', test_member_id=member.id) }}"> 공개</a> </td>
+                    {% else %}
+                    <td> <a href="{{ url_for('upload.select_1',test_member_id=member.id ) }}"> 비공개</a> </td>
+                    {% endif %}
+
+                </tbody>
+            {% endfor %}
+    </table>
+
+</div>
+
+{% endblock %}

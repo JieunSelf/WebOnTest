@@ -1,0 +1,71 @@
+<!--- 회원가입 ---->
+{% extends 'base.html' %}
+{% block content%}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>alert("{{messages[-1]}}")</script>
+{% endif %}
+{% endwith %}
+
+<div class='container'>
+
+    
+    <div class="row mt-5">
+        <div>
+            <form method="POST">
+                {{ form.csrf_token }}
+
+                <div class="my_info">
+                    <table cellpadding="10px" class="join_table">
+                        <colgroup>
+                            <col width="40%"/>
+                            <col width = "auto"/>
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td colspan="2" style="text-align:center;">
+                                    <h1 style="font-family: 'nanumSquareB';font-size:xx-large" >회 원 가 입</h1>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span>{{ form.idn.label }}</span></th>
+                                <td>{{ form.idn() }}</td>
+                            </tr>
+                            <tr>
+                                <th><span>{{ form.password1.label }}</span></th>
+                                <td>{{ form.password1() }}</td>
+                            </tr>
+                            <tr>
+                                <th><span>{{ form.password2.label }}</span></th>
+                                <td>{{ form.password2() }}</td>
+                            </tr>
+                            <tr>
+                                <th><span>{{ form.name.label }}</span></th>
+                                <td>{{ form.name()}}</td>
+                            </tr>
+                            <tr>
+                                <th><span>{{ form.usertype.label }}</span></th>
+                                <td>{{ form.usertype() }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button type="submit" class="btn btn-color" style="width:100%;">회원 가입</button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

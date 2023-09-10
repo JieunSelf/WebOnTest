@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+    <link rel ="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <title> SwTot.com </title>
+</head>
+<body>
+    <div class="container">
+        <h3 class="page_tag">답안지</h3>
+
+        {% for key, val in answer_dict.items() %}
+
+        <div class="content">
+            <div>▷ 응시자 : {{val[0].member.user_name}}</div>
+            <div>▷ 응시자 ID : {{key}}</div>
+            <br>
+            {% for v in val %}
+            <div style="display: flex;">
+                <div style="font-weight: bold; width:3%">{{loop.index}}번</div>
+                <div style="margin:0 1rem; font-weight:530; width :97%">
+                    {% autoescape false %}
+                    {{v.answer.replace("\r\n", "<br />")}}
+                    {% endautoescape %}
+                </div>
+            </div>
+            <br>
+            <div>
+                {% if v.img_file %}
+                <img style="width: 80%; display: block; margin: 0px auto;" src="data:;base64,{{ b64encode(v.img_file).decode('utf-8') }}"/> 
+                {% endif %}
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+        <br>
+        {% endfor %}
+
+
+
+    </div>
+</body>
+</html>

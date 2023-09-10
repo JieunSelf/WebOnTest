@@ -1,0 +1,49 @@
+<!--- 결과보기 > 내 점수 확인하기 > 점수 눌러서 문항별 나의 답안&점수 확인하는 페이지 ---->
+
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <h3 class="page_tag">
+        답안 확인하기
+    </h3>
+    <div class="square">
+        <span>▷ 시험 :</span> {{scoreset.testset.title}}
+        <br>
+        <span>▷ 응시 :</span> {{scoreset.testset.create_date|datetime }}
+        <br>
+        <span>▷ 총 점수 :</span> {{ scoreset.score_sum }} 점
+    </div>
+
+    {% for (test, answer) in zip(test2, answers) %}
+    <div class="content">
+        <div style="display:flex; margin: .5rem 0;">
+            <div style="font-weight: bold; width:5%">문항 {{test.number}}</div>
+
+            <div style="margin:0 1rem; font-weight:530; width :95%">
+            {% autoescape false %}
+            {{ test.content.replace("\r\n", "<br />")}}
+            {% endautoescape %}</div>
+        </div>
+
+        <div class="answer_content"> 
+            <div>
+                {% autoescape false %}
+                {{ answer.answer.replace("\r\n", "<br />")}}
+                {% endautoescape %}
+            </div>
+            {% if answer.img_file %}    
+            <div style="text-align: center;">
+                <img src="data:;base64,{{ b64encode(answer.img_file).decode('utf-8') }}"/>
+            </div>
+            {% endif %}
+        </div>
+        <div style="text-align:right; font-family: 'nanumSquareB'; margin:0 1rem;">▷ 점수 : {{ answer.score }}점</div>
+    </div>
+    {% endfor %}
+    
+</div>
+
+
+
+{% endblock %}

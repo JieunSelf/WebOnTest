@@ -1,0 +1,109 @@
+<!--- 공지사항 글 목록 ---->
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container notice">
+    <h3 class="page_tag">공지사항</h3>
+
+    <table class="table-type09" style="width:90%">
+
+            <colgroup>
+               <col span="1" style="width: 7%;">
+               <col span="1" style="width: 43%;">
+               <col span="1" style="width: 20%;">
+               <col span="1" style="width: 20%;">
+               <col span="1" style="width: 10%;">
+            </colgroup>
+
+
+        <thead>
+            <tr>
+                <th class= "text-center"></th>
+                <th class= "text-center">제목</th>
+                <th class= "text-center">작성자</th>
+                <th class= "text-center">작성일</th>
+                <th class= "text-center">조회</th>
+            </tr>
+        </thead>
+
+        {% if notice_list.items != [] %}
+            {% for notice in notice_list.items %}
+                <tbody>
+                    <td style="font-size: small; vertical-align: middle;"> {{ notice.id }} </td>
+                    <td style="text-align: left; margin:1rem;"> <a href="/notice/detail/{{notice.id}}" style="color: #051937;"> {{ notice.title }} </a> </td>
+                    <td>  {{ notice.member.user_name }} </td>
+                    <td style="font-size: small; vertical-align: middle;"> {{ notice.create_date|datetime }} </td>
+                    <td> {{notice.view_count }} </td>
+                </tbody>
+            {% endfor %}
+       
+        {% else %}
+            <tbody>
+                <tr>
+                    <td colspan="5">공지사항이 없습니다.</td>
+                </tr>
+            </tbody>
+        {% endif %}
+    </table>
+
+    <div style="padding: .1rem 2.5rem;">
+        {% if session['user_type'] == '1' %}
+        <a href="{{ url_for('notice.create') }}" class = "btn btn-color btn-right"> 글쓰기 </a>
+        {% endif %}
+    </div>
+
+    <div >
+    <!--페이징 처리 시작-->
+    <ul class = "pagination justify-content-center">
+        <!--이전 페이지-->
+        {% if notice_list.has_prev %}
+        <li class = "page-item">
+            <a class = "page-link" href = "?page={{ notice_list.prev_num }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+
+        {% for page_num in notice_list.iter_pages() %}
+            {% if page_num %}
+                {% if page_num != notice_list.page %}
+                <li class= "page-item">
+                    <a class="page-link" href="?page={{ page_num}}">{{page_num}}</a>
+                </li>
+
+                {% else %}
+                <!--현재 페이지-->
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href = "#"> {{page_num}}</a>
+                </li>
+                {% endif %}
+            
+            {% else %}
+                <li class="disabled">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        <!--다음 페이지-->
+        {% if notice_list.has_next %}
+        <li class="page-item">
+            <a class = "page-link" href="?page={{ notice_list.next_num }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    </div>
+
+
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,68 @@
+<!--- 시험업로드 > 시험지 보기 들어간 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>alert("{{messages[-1]}}")</script>
+{% endif %}
+{% endwith %}
+
+<div class="container my-3">
+    <h2 class="py-2" style="font-family: 'nanumSquareB';">{{test_set.title}}</h2>
+
+    {% if user_id == 'manager'%}
+    <p style="margin: 1em; font-family: 'nanumSquareB'">
+        ( 출제자 : {{test_set.member.user_name}} 선생님)
+    </p>
+    {% endif %}
+
+    <div class="square" style="color:red; margin:1rem;">
+        ※ 파일 제출시 이미지 파일만 가능 <br>
+        ※ 답안은 임시저장 되지 않으므로 제출하기 전 반드시 별도 저장할 것
+    </div>
+    
+    
+    <h4 class="content_h4"> 시험 설명</h4>        
+    <div class="content">{{content}}</div>
+    
+
+    <h4 class="content_h4"> 시험 문항</h4>
+    <div>
+    {% for i in test %}
+    <div  class="content" style="margin-top : 1rem;"> 
+        <div style="display: flex; margin: .5rem 0;">
+            <span style="position:absolute; font-weight:bold; width:120px;">{{i.number}}번</span> 
+            <span style="padding-left:30px; margin:0 1rem; font-weight:530;">
+            {% autoescape false %}
+            {{ i.content.replace("\r\n", "<br />")}}
+            {% endautoescape %}</span>
+        </div>
+
+        {% if i.img_file %}
+        <img style="width: 80%; display: block; margin: 0px auto;" src="data:;base64,{{ b64encode(i.img_file).decode('utf-8')}}">
+        {% endif %}
+
+    </div>
+    {% endfor %}
+    </div>
+    
+    <div class="btn-right" style="margin-bottom: 10rem;">
+        <a href = "{{ url_for('upload.modify_1', test_id=test_set.id)}}" class="btn btn-color">수정하기</a>
+        <a href = "#" class= "delete btn btn-color btn-outline-secondary" data-uri="{{url_for('upload.delete', test_id = test_set.id) }}">삭제하기</a>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 삭제하시겠습니까? \n삭제 시 응시자의 답안과 점수 결과도 함께 삭제됩니다.")) {
+            location.href = $(this).data('uri');
+        }
+    }) });
+</script>
+{% endblock %}

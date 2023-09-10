@@ -1,0 +1,54 @@
+<!--- 채점하기 > 채점하기 > 채점 다시하기 눌러서 점수 입력하는 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <h3 class="page_tag">   
+        채점하기
+        </h3> 
+    <div class="square" > 
+        응시자 : {{member.user_name}}
+    </div>
+
+
+    <form method="POST">
+        {{ form.csrf_token }}
+        {% for (test, answer, score, img) in zip(test2, answer_list.values(), score_list, img_list.values()) %}
+
+        <div class="content">
+            <div style="display:flex; margin: .5rem 0;">
+                <div style="font-weight: bold; width:5%">문항 {{test.number}}</div>
+
+                <div style="margin:0 1rem; font-weight:530; width :95%">
+                {% autoescape false %}
+                {{ test.content.replace("\r\n", "<br />")}}
+                {% endautoescape %}</div>
+            </div>
+
+            <div class="answer_content"> 
+                <div>{{answer}}</div>
+                <div style="text-align: center;"><img src="data:;base64,{{ img }}"/></div>
+            </div>
+
+            <div style="text-align:right; font-family: 'nanumSquareB';">
+                {% if score != None %}
+                <span> 점수 : 
+                    {{ form.score(value=score) }}
+                </span>
+                {% else %}
+                <span> 점수 : 
+                    {{ form.score() }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endfor %}
+
+        <button type="submit" class="btn btn-color btn-right">
+            채점 완료</button>
+    </form>
+</div>
+
+
+{% endblock %}

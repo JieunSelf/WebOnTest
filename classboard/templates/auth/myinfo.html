@@ -1,0 +1,94 @@
+<!--- 회원정보 수정 ---->
+{% extends 'base.html' %}
+{% block content%}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>alert("{{messages[-1]}}")</script>
+{% endif %}
+{% endwith %}
+
+<div class='container'>
+
+    
+    <div class="row mt-5">
+        <div class="cpl-12">
+            <form method="POST">
+                {{ form.csrf_token }}
+
+                <div class="my_info">
+                    <table cellpadding="10px" class="join_table">
+                        <colgroup>
+                            <col width="40%"/>
+                            <col width = "auto"/>
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td colspan="2" style="text-align:left;">
+                                    <h1 style="font-family: 'nanumSquareB';font-size:xx-large" >회 원 정 보</h1>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span>아이디</span></th>
+                                <td>{{ user.user_id }}</td>
+                            </tr>
+                            <tr>
+                                <th><span>비밀번호 변경</span></th>
+                                <td>{{ form.password1() }}</td>
+                            </tr>
+                            <tr>
+                                <th><span>{{ form.password2.label }}</span></th>
+                                <td>{{ form.password2() }}</td>
+                            </tr>
+                            <tr>
+                                <th><span>{{ form.name.label }}</span></th>
+                                <td>{{ form.name(value=user.user_name)}}</td>
+                            </tr>
+                            <tr>
+                                <th><span>구분</span></th>
+                                {% if user.user_type == '1' %}
+                                <td>교사</td>
+                                {% elif user.user_type == '2' %}
+                                <td>학생</td>
+                                {% else %}
+                                <td>학부모</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button type="submit" class="btn btn-color" style="width:100%;">회원정보 수정</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="#" class="delete btn btn-warn"
+                                    data-uri="{{url_for('auth.delete_id', user_id=user.id) }}"
+                                    style="width:100%;">회원 탈퇴</a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 탈퇴하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    }) });
+
+
+</script>
+{% endblock %}

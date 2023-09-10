@@ -1,0 +1,69 @@
+<!--- 메뉴 Navigation  ---->
+{% block content %}
+
+<header class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light border-css">
+        
+        <a class="navbar-brand" href="/notice/list"><span class='glyphicon glyphicon-home'></span> <span class="logo">SwTot.com</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        {% if session['user_name'] %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto" style="font-family: 'dohyeon';">
+            <li class="nav-item active">
+              <a class="nav-link" href="/notice/list">공지사항</a>
+            </li>
+            {% if session['user_type'] == '1' %}
+            <li class="nav-item">
+              <a class="nav-link" href="/upload/list/{{session['user_id']}}">시험업로드</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/exam/list">시험응시</a>
+            </li>
+            {% if session['user_type'] == '1' %}
+            <li class="nav-item">
+              <a class="nav-link" href="/score">채점하기</a>
+            </li>
+            {% endif %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                시험결과보기
+              </a>
+              <div class="dropdown-menu" style="font-family: 'nanumSquareB';" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/result">내 점수 확인하기</a>
+                <!-- <a class="dropdown-item" href="#">석차 확인하기</a> -->
+                <!--                 <div class="dropdown-divider"></div> -->
+                <!--                 <a class="dropdown-item" href="#">Something else here</a> -->
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="navbar navbar-right">
+            <div class="div-center"
+            style="font-family: 'nanumSquareB'"><span style="color: #355cca;">{{session['user_name']}}</span> 님이 접속했습니다.</div> 
+            <span class="div-center"><button type="button" onclick="location.href='/auth/logout' " class="btn btn-color" style="font-size: 13px;">로그아웃</button>
+              {% if session['user_id'] == 'manager' %}
+              <button type="button" onclick="location.href='/manage/member_list' " class="btn btn-color" style="font-size: 13px;">회원 관리</button>
+              {% else %}
+              <button type="button" onclick="location.href='/auth/myinfo/{{session['user_id']}}' " class="btn btn-color" style="font-size: 13px;">프로필 수정</button>
+              {% endif %}
+          
+            
+            </span>
+
+        </div>
+
+
+
+        {% endif %} 
+    </nav>
+
+
+</header>
+
+
+{% endblock %}

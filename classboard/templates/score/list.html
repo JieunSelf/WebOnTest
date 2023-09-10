@@ -1,0 +1,108 @@
+<!--- 채점하기 > 채점하기 클릭했을때 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>alert("{{messages[-1]}}")</script>
+{% endif %}
+{% endwith %}
+
+<div class="container">
+    <h3 class="page_tag">채점하기</h3> 
+
+    {% if member_list %}
+    <div class = "square">
+        ( {{test.title}} 채점 중.. )
+    </div>
+
+    <table class="table-type09" style="width : 90%">
+        <colgroup>
+            <col span="1" style="width: 15%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 25%;">
+         </colgroup>
+
+        <thead>
+            <tr>
+                <th class= "text-center">번호</th>
+                <th class= "text-center">응시자</th>
+                <th class= "text-center">점수</th>
+                <th class= "text-center">채점</th>
+                <th class= "text-center">점수 공개</th>
+            </tr>
+        </thead>
+
+    
+            {% for member, score in zip(member_list, score_list) %}
+                <tbody>
+                    <td style="vertical-align: middle;"> {{ loop.index }} </td>
+                    <td style="vertical-align: middle;"> {{ member.user_name}}</td>
+                    {% if score != None %}
+                    <td style="vertical-align: middle;"> {{ score.score_sum }}</td>
+                    <td>  <a href="/score/detail/{{test_id}}/{{member.id}}" class="btn btn-color" style="font-size: smaller;"> 채점 다시하기 </a> </td>
+                    {% else %}
+                    <td> </td>
+                    <td>  <a href="/score/detail/{{test_id}}/{{member.id}}" class="btn btn-color" style="font-size: smaller;"> 채점하기 </a> </td>
+                    {% endif%}
+
+                    {% if score != None %}
+                    {% if score.score_open == 1%}
+                    <td style="vertical-align: middle;"><a href="{{ url_for('score.score_close', score_id=score.id) }}"> 공개 중 </a></td>
+                    {% else %}
+                    <td style="vertical-align: middle;"><a href="{{ url_for('score.score_open', score_id = score.id) }}"> 비공개 중 </a></td>
+                    {% endif %}
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                </tbody>
+            {% endfor %}
+    
+    </table>
+
+    {% else %}
+    <div class = "square" >
+        <div>시험 : {{test.title}} </div> <br>
+          ▷ 응시한 학생이 없습니다.</div>
+{% endif %}
+
+    {% if member_list %}
+    <div>
+    <a href="#" data-uri="{{ url_for('score.score_close_all', testset_id = test_id) }}"
+    class = "btn btn-color btn-right close" title = "모든 학생들의 점수를 비공개합니다."> 점수 비공개  </a>
+    
+    <a href="#" data-uri="{{ url_for('score.score_open_all', testset_id = test_id) }}"
+    class = "btn btn-color btn-right open" title = "채점이 완료된 학생들의 점수를 공개합니다."> 점수 공개  </a>
+
+    <a href="{{ url_for('score.csv_download', testset_id = test_id) }}"
+    class = "btn btn-color btn-right" title = "채점이 완료된 학생들의 점수 csv 파일입니다."> 점수 다운로드  </a>
+
+    <a href="{{ url_for('score.result_download', testset_id = test_id) }}"
+    class = "btn btn-color btn-right" title = "학생들의 답안입니다."> 답안 다운로드  </a>
+    </div>
+    {% endif %}
+
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".close").on('click', function() {
+        if(confirm("모든 응시자의 점수를 비공개하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    }) });
+
+$(document).ready(function(){
+    $(".open").on('click', function() {
+        if(confirm("모든 응시자의 점수를 공개하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    }) });
+</script>
+{% endblock %}
+

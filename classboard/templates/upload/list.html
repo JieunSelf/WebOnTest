@@ -1,0 +1,140 @@
+<!--- 시험업로드 들어간 처음 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>alert("{{messages[-1]}}")</script>
+{% endif %}
+{% endwith %}
+
+<div class="container notice">
+    <div>
+        <h3 class="page_tag">시험 업로드</h3>
+        <div class="square" style="font-family: 'nanumSquareB';">
+            {% if session['user_id'] == 'manager' %} 
+            업로드된 시험지 목록입니다.
+            
+            {% else %}
+            <span style="font-size: 17px; color:#40b7ad;">{{session['user_name']}} 선생님</span>께서 업로드한 시험지입니다.  
+            {%endif %}
+
+            <a href="{{ url_for('upload.test_step1') }}" class = "btn btn-color" style="font-size: 13px;"> 시험 만들기 </a>
+        </div> 
+    </div>
+
+
+    <div style="position:relative; left:3%;">
+        {% if test_list.items != [] %}
+        {% for test in test_list.items %}
+
+        <div class="card-margin card" style="width: 18rem; margin:1rem 2rem;">
+            <img src="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_1280.png" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title" style="font-family: 'nanumSquareB';">{{test.title}}</h5>
+              <div style="text-align: center; margin : 0.5rem;">
+                <a href="/upload/detail/{{test.id }}" class="btn btn-color">시험지 보기</a>
+                <a href = "#" class= "delete btn btn-color btn-outline-secondary" data-uri="{{url_for('upload.delete', test_id = test.id) }}">삭제하기</a>
+              </div>
+
+              
+              <div style="text-align: center;">
+                {% if test.test_open == 0 %}
+                <a href = "#" class= "open" data-uri="{{url_for('upload.open', testset_id = test.id) }}">시험 비공개 중</a>
+                {% else %}
+                <a href = "#" class= "close" data-uri="{{url_for('upload.close', testset_id = test.id) }}">시험 공개 중</a>
+                {% endif %}
+              </div>
+        
+            </div>
+          </div>
+
+        {% endfor %}
+   
+        {% else %}
+        <div style="color: #857e81db; font-family: 'nanumSquareB'; margin : 1rem 3rem;" >
+        작성한 시험이 없습니다.
+        </div>
+        {% endif %}
+    </div> 
+    
+    <div style="margin-top: 2rem; margin-bottom: 5rem;">
+        <!--페이징 처리 시작--> 
+    <ul class = "pagination justify-content-center">
+        <!--이전 페이지-->
+        {% if test_list.has_prev %}
+        <li class = "page-item">
+            <a class = "page-link" href = "?page={{ test_list.prev_num }}"><<</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#"><<</a>
+        </li>
+        {% endif %}
+    
+        {% for page_num in test_list.iter_pages() %}
+            {% if page_num %}
+                {% if page_num != test_list.page %}
+                <li class= "page-item">
+                    <a class="page-link" href="?page={{ page_num}}">{{page_num}}</a>
+                </li>
+    
+                {% else %}
+                <!--현재 페이지-->
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href = "#"> {{page_num}}</a>
+                </li>
+                {% endif %}
+            
+            {% else %}
+                <li class="disabled">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    
+        <!--다음 페이지-->
+        {% if test_list.has_next %}
+        <li class="page-item">
+            <a class = "page-link" href="?page={{ test_list.next_num }}">>></a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">>></a>
+        </li>
+        {% endif %}
+    </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 삭제하시겠습니까? \n삭제 시 응시자의 답안과 점수 결과도 함께 삭제됩니다.")) {
+            location.href = $(this).data('uri');
+        }
+    }) });
+
+$(document).ready(function(){
+    $(".open").on('click', function() {
+        if(confirm("학생들이 시험 응시를 시작합니다.")) {
+            location.href = $(this).data('uri');
+        }
+    }) });
+
+$(document).ready(function(){
+    $(".close").on('click', function() {
+        if(confirm("학생들이 시험 응시를 마칩니다.")) {
+            location.href = $(this).data('uri');
+        }
+    }) });
+
+</script>
+{% endblock %}
+
+
+
+

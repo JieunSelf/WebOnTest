@@ -1,0 +1,300 @@
+/* 폰트 스타일 모음 */
+.fn-style {
+    /* color: #7d722d; */
+    color :#2b2606;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "hanmaeumM";
+    src: url("./fonts/hanmaeum_myungjo_M.ttf");
+}
+
+@font-face {
+    font-family: "nanumSquareB";
+    src: url("./fonts/NanumSquareB.ttf");
+}
+
+@font-face {
+    font-family: "dohyeon";
+    src: url("./fonts/BMDOHYEON_ttf.ttf");
+}
+
+/* 버튼 css 모음 */
+.btn-color {
+    color: #1d1b21;
+    background-color: #e2e2e6ba;
+    border-color: #cacaca;
+}
+
+.btn-color:hover {
+    color: #e4e9f3;
+    background-color: #061e33;
+    border-color: #000000;
+}
+
+.btn-warn {
+    color: #dcd9d2;
+    background-color: #0c0c0cba;
+    border-color: #5c5050;
+}
+
+.btn-warn:hover {
+    color: #00050e;
+    background-color: #f54646;
+    border-color: #d6d1d1;
+}
+
+.btn-right {
+    margin : 10px;
+    float: right;
+}
+
+
+/* delBtn css */
+.del-css {
+    font-size: 1rem; 
+    margin : 0 .5rem;
+}
+
+.ajx-del {
+    font-size : 11px;
+    margin : 10px;
+    color: #1d1b21;
+    background-color: #e2e2e6ba;
+    border-color: #cacaca;
+}
+
+.ajx-del:hover {
+    color: #fff7f7;
+    background-color: #44929ac7;
+    border-color: #ffffff;
+}
+
+.div-center {
+    width: 100%;
+    text-align: center;
+}
+
+/* navbar */
+
+/* nav1. 온테스트 로고 */
+.logo {
+    font-family: 'Fugaz One', cursive;
+}
+
+
+/* nav2. font */
+.bg-font {
+    font-family: 'Do Hyeon', sans-serif;
+}
+
+/* nav3. line */
+.border-css {
+    border-bottom: 3px solid #eae7e8;
+}
+
+
+/* page_tag */
+.page_tag {
+    margin : 1rem 1rem;
+    font-family: 'nanumSquareB' sans-serif;
+    text-decoration: underline rgb(81, 84, 88) .12rem;
+    text-underline-position: under;
+}
+
+/* notice - table */
+.notice {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-css {
+    /* margin-top: 30px; */
+    margin : 30px auto;
+}
+
+  .table-type09 {
+    border-collapse: collapse;
+    text-align: left;
+    line-height: 1.5;
+    margin : 2rem auto 1rem auto;
+  }
+  .table-type09 thead th {
+    padding: .6rem;
+    /* font-weight: bold; */
+    vertical-align: top;
+    color: rgb(27, 63, 99);
+    border-bottom: 2px solid rgb(40, 58, 99);
+  }
+  .table-type09 tbody th {
+    width: 150px;
+    padding: .6rem;
+    /* font-weight: bold; */
+    vertical-align: top;
+    border-bottom: 1px solid rgb(224, 220, 233);
+    background: #f3f6f7;
+
+  }
+  .table-type09 td {
+    width: 350px;
+    padding: .5rem;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+
+/* auth */
+.my_info {
+    width : 45%;
+    margin : 1rem auto;
+    padding : 1rem;
+    border-radius: .1rem;
+    border: solid #e0e0e0;
+}
+
+/* 공지사항 - detail */
+.notice-title {
+    font-size:x-large;
+    margin : 0 1rem;
+    padding : 1rem 0rem;
+    font-family: 'nanumSquareB';
+    border-bottom: .1rem solid #e6e6e6;
+}
+
+
+
+.margin-css {
+    margin : 1rem;
+}
+
+.square {
+    margin : 1rem;
+    padding : 1rem;
+    background-color: rgb(217, 229, 235);
+    border-radius: .5rem;
+    font-family: 'nanumSquareB';
+
+}
+
+.form-css {
+    margin : 10px;
+}
+
+
+#main_header {
+    width : 960px; margin: 0 auto;
+    height: 100px;
+    position : relative; 
+}
+
+
+.card-margin {
+    float: left;
+    margin: 30px;
+}
+
+.cardtext {
+    padding : 0.5rem;
+    margin-bottom: 2rem;
+}
+
+h5.card-title {
+    text-align: center;
+    font-size: 22px;
+    color: unset;
+}
+
+
+
+
+/* 시험 설명 틀 */
+.content {
+    color: #181d21;
+    background-color: #e6e6e6;
+    padding: 15px;
+    border: 1.5px solid #b9c7c6cc;
+    margin: 1.5rem;
+    border-radius: 0.3em;
+    display: flex;
+    flex-direction: column;
+}
+
+.content_title {
+    display : block;
+    margin : 2rem;
+}
+
+.content_h4 {
+    color:#5e7c8a; 
+    font-family: 'nanumSquareB'; 
+    margin : .5rem 1rem;
+}
+
+.answer_content {
+    color: #1b3447;
+    background-color: #fdfbfb;
+    padding: 1rem;
+    border: .1rem solid #d0dad8cc;
+    margin: 1rem;
+    font-size: 1.2rem;
+}
+
+/* page 버튼 관련 */
+.page-active {
+    z-index: 3;
+    color: #fff;
+    background-color: #40b7adcc;
+    border-color: #ffffff;
+}
+
+/* ajax- 관련 */
+::marker {
+    font-weight: 800;
+}
+
+/* 회원가입 form */
+.join_table {
+    margin : auto;
+}
+
+.testInputDiv {
+    display: flex;
+    margin : 1rem;
+}
+
+.testInput {
+    margin : 0 .5rem;
+    width : 75%;
+    height: 5rem;
+}
+
+.testFile {
+    font-size: small;
+    width : 20%;
+    vertical-align: middle;
+}
+
+.btn-upload {
+    font-size: small;
+}
+
+
+.testDel {
+    width : 5%;
+}
+
+.input-file-button{
+    padding: 6px 25px;
+    background-color:#daa78a;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
+
+@media screen and (max-width : 1237px) {
+    .my_info {
+        width:80%;
+    }
+}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <p></p>
+    <p style="color: rgb(29, 31, 146); font-family: 'nanumSquareB';"
+    >※ 아이디를 클릭하면 해당 아이디로 로그인됩니다.</p>
+
+
+    <table class="table-type09" style="width:95%">
+
+            <colgroup>
+               <col span="1" style="width: 7%;">
+               <col span="1" style="width: 15%;">
+               <col span="1" style="width: 15%;">
+               <col span="1" style="width: 10%;">
+               <col span="1" style="width: 18%;">
+               <col span="1" style="width: 18%;">
+               <col span="1" style="width: 10%;">
+               <col span="1" style="width: 7%;">
+            </colgroup>
+
+
+        <thead>
+            <tr>
+                <th class= "text-center">번호</th>
+                <th class= "text-center">ID</th>
+                <th class= "text-center">이름</th>
+                <th class= "text-center">Type</th>
+                <th class= "text-center">가입일시</th>
+                <th class= "text-center">접속일시</th>
+                <th class= "text-center">승인</th>
+                <th class= "text-center">탈퇴</th>
+
+            </tr>
+        </thead>
+
+        {% if member_list.items != [] %}
+            {% for member in member_list.items %}
+                <tbody>
+                    <td> {{ member.id }} </td>
+                    <td> <a href="/manage/transform/{{member.user_id}}"> {{ member.user_id }} </a> </td>
+                    <td>  {{ member.user_name }} </td>
+                    {% if member.user_type == '1'  %}
+                    <td> 교사 </td>
+                    {% elif member.user_type == '2'  %}
+                    <td> 학생 </td>
+                    {% elif member.user_type == '3'  %}
+                    <td> 학부모 </td>
+                    {% endif %}    
+                    <td style="font-size:small;"> {{ member.create_date|datetime }} </td>
+                    {% if member.connect_date %}
+                    <td style="font-size:small;"> {{ member.connect_date|datetime }} </td>
+                    {%else%}
+                    <td> </td>
+                    {% endif %}
+                    {% if member.permit == 0 %}
+                    <td> <a href="/manage/permit/{{member.user_id}}"> O </a> </td>
+                    {% else %}
+                    <td>  <a href="/manage/permit/{{member.user_id}}"> X </a> </td>
+                    {% endif %}
+                    <td> {% if member.is_activate %} O {% endif %}</td>
+                </tbody>
+            {% endfor %}
+       
+        {% else %}
+            <tbody>
+                <tr>
+                    <td colspan="6">가입한 회원이 없습니다.</td>
+                </tr>
+            </tbody>
+        {% endif %}
+    </table>
+
+    <div >
+    <!--페이징 처리 시작-->
+    <ul class = "pagination justify-content-center">
+        <!--이전 페이지-->
+        {% if member_list.has_prev %}
+        <li class = "page-item">
+            <a class = "page-link" href = "?page={{ notice_list.prev_num }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+
+        {% for page_num in member_list.iter_pages() %}
+            {% if page_num %}
+                {% if page_num != member_list.page %}
+                <li class= "page-item">
+                    <a class="page-link" href="?page={{ page_num}}">{{page_num}}</a>
+                </li>
+
+                {% else %}
+                <!--현재 페이지-->
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href = "#"> {{page_num}}</a>
+                </li>
+                {% endif %}
+            
+            {% else %}
+                <li class="disabled">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        <!--다음 페이지-->
+        {% if member_list.has_next %}
+        <li class="page-item">
+            <a class = "page-link" href="?page={{ notice_list.next_num }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    </div>
+</div>
+
+{% endblock %}

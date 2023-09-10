@@ -1,0 +1,47 @@
+<!--- 결과보기의 시험 결과 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container notice">
+    <h3 class="page_tag">내 점수 확인하기</h3>
+
+    <table class="table-type09" style="width:95%">
+        <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 50%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 20%;">
+         </colgroup>
+
+
+        <thead>
+            <tr>
+                <th class= "text-center">항목</th>
+                <th class= "text-center">시험</th>
+                <th class= "text-center">점수</th>
+                <th class= "text-center">이수증</th>
+            </tr>
+        </thead>
+
+        {% if score_openlist %}
+            {% for score in score_openlist %}
+                <tbody>
+                    <td> {{ loop.index }} </td>
+                    <td> {{ score.testset.title }}</td>
+                    <td> <a href="{{url_for('result.my_score_detail', testset_id=score.testset_id)}}">{{ score.score_sum }}</a></td>
+                    <td> <a href="{{url_for('result.certificate', course=score.testset.title, grade=score.score_sum)}}">발급</a> </td>
+                </tbody>
+            {% endfor %}
+       
+        {% else %}
+            <tbody>
+                <tr>
+                    <td colspan="5">시험 결과가 없습니다.</td>
+                </tr>
+            </tbody>
+        {% endif %}
+    </table>
+</div>
+
+
+{% endblock %}

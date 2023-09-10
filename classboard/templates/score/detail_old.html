@@ -1,0 +1,58 @@
+<!--- 채점하기 > 채점하기 > 채점 다시하기 눌러서 점수 입력하는 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-3">
+    {{test_id}}
+    <h2 class="py-2" style="font-size: 18px; font-family: 'nanumSquareB';"> 응시자 : {{member.user_name}}</h2>
+
+
+
+
+<div class="container">
+
+    <table class="table-type09">
+        <colgroup>
+            <col span="1" style="width: 5%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 40%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 15%;">
+         </colgroup>
+
+        <thead>
+            <tr>
+                <th class="text-center"></th>
+                <th style='text-align: left;'>문항</th>
+                <th style='text-align: left;'>답안</th>
+                <th class="text-center">첨부파일</th>
+                <th class="text-center">점수</th>
+            </tr>
+        </thead>
+        <tbody>
+        <form method="POST">
+            {{ form.csrf_token }}
+            {% for (test, answer, score, img) in zip(test2, answer_list.values(), score_list, img_list.values()) %}
+            
+                <td style="font-family: 'dohyeon';">{{test.number}}</td>
+                <td style='text-align: left;'>{{test.content}}</td>
+                <td style='text-align: left;'> {{answer}} </td>
+                <td class="text-center"> <img src="data:;base64,{{ img }}"/> </td>
+                {% if score != None %}
+                <td>
+                    {{ form.score(value=score) }}
+                </td>
+                {% else %}
+                <td>
+                    {{ form.score() }}
+                </td>
+                {% endif %}
+        </tbody>
+            {% endfor %}
+    </table>
+    <button type="submit" class="btn btn-color btn-right">채점 완료</button>
+</form>
+</div>
+
+
+{% endblock %}

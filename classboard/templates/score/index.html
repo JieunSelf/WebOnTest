@@ -1,0 +1,39 @@
+<!--- 채점하기 처음에 들어간 목록 페이지 ---->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container notice">
+
+  <div>
+    <h3 class="page_tag">채점하기</h3> 
+    <div class="square" style="font-family: 'nanumSquareB'; color :#4e5875;">▶ 채점하기 버튼을 누르세요.</div>
+  </div>
+
+
+  <div style="position:relative; left:3%;">
+    {% if test_list %}
+    {% for test in test_list %}
+    <div class="card-margin card" style="width: 18rem; margin:1rem 2rem;">
+      <img src="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_1280.png" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title" 
+        style="font-family: 'nanumSquareB';">{{test.title}}</h5>
+        <div style="text-align: center; margin : 0.5rem;">
+          <a href="/score/list/{{test.id }}" class="btn btn-color btn-right">채점하기</a>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+    </div>
+  
+
+    {% else %}
+    <div style="color: #857e81db; font-family: 'nanumSquareB'; margin : 1rem 3rem;">
+    업로드한 시험이 없습니다.
+    </div>
+    {% endif %}
+
+</div>  
+
+
+{% endblock %}
