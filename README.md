@@ -18,7 +18,7 @@
 >> ▪️ 관리자 페이지 (관리자 초기 ID : manager / PW : 1111)
 >> 
 
-화면 구성??????
+
 
 ## 3. 개발 환경
 - <b>IDE</b> : VSCode
@@ -28,7 +28,6 @@
 - <b>ORM</b> : SQLAlchemy(2.5.1)
 
 - HTML, CSS, JavaScript, Jinja
-
 
 
 
